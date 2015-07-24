@@ -2,10 +2,13 @@
 #define MultiTasking_h
 
 //Maximum amount of threads can be set here:
+#ifndef MAXIMUM_THREADS
 #define MAXIMUM_THREADS 50 //Max is 255 
-
+#endif
 //Maximum amount of timers can be set here:
+#ifndef MAXIMUM_TIMERS
 #define MAXIMUM_TIMERS	20 //Max is 255
+#endif
 
 #include "Arduino.h" //Adding standard Arduino library.
 
