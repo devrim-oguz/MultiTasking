@@ -55,33 +55,33 @@ int analogPin = A0; //Burada analog pin'i A0 olarak belirledik.
 
 //Öncelikle gerekli ayarları yapmak için setup fonksiyonunu tanımlayalım.
 void setup() {
-  Serial.begin(9600); //Serial monitörle işimiz olduğu için öncelikle serial monitörü başlatalım.
+	Serial.begin(9600); //Serial monitörle işimiz olduğu için öncelikle serial monitörü başlatalım.
 
-  pinMode( LED, OUTPUT ); //LED isimli pini çıkış pini olarak ayarlayalım ki lambayı yakıp söndürebilelim.
+	pinMode( LED, OUTPUT ); //LED isimli pini çıkış pini olarak ayarlayalım ki lambayı yakıp söndürebilelim.
 
-  //Not: fonksiyon tanımları loop fonksiyonundan sonra yapılmıştır.
+	//Not: fonksiyon tanımları loop fonksiyonundan sonra yapılmıştır.
 
-  gorevLst.setTimer( lambaDurumuDegistir, 1000, 0 ); /*Lambanın durumunu değiştirecek fonksiyonun
-  saniyede bir çağırılması için bu fonksiyonun ismini, ne kadar sürede bir çalıştıracağımızı ve
-  kaç kere çalıştıracağımızı kütüphanemize bildirelim. Buradaki lambaDurumu değiştir lambayı yakıp
-  söndürecek fonksiyonu, "1000" yazan yer fonksiyonun kaç milisaniyede bir çağırılacağını
-  (1000 Milisaniye = 1 Saniye), sondaki "0" ise fonksiyonun kaç kere çalıştırılacağını belirtmek için
-  kullanılmıştır. Eğer bu değere 0 verilirse fonksiyon sonsuza dek(veya başka bir komut tarafından
-  durduruluncaya kadar) çalışmaya devam edecektir. Buradan anlayacağımız şey lambaDurumuDegistir
-  fonksiyonunun sonsuza kadar(veya durdurulana kadar) saniyede bir çalıştırılacağıdır.
-  */
+	gorevLst.setTimer( lambaDurumuDegistir, 1000, 0 ); /*Lambanın durumunu değiştirecek fonksiyonun
+	saniyede bir çağırılması için bu fonksiyonun ismini, ne kadar sürede bir çalıştıracağımızı ve
+	kaç kere çalıştıracağımızı kütüphanemize bildirelim. Buradaki lambaDurumu değiştir lambayı yakıp
+	söndürecek fonksiyonu, "1000" yazan yer fonksiyonun kaç milisaniyede bir çağırılacağını
+	(1000 Milisaniye = 1 Saniye), sondaki "0" ise fonksiyonun kaç kere çalıştırılacağını belirtmek için
+	kullanılmıştır. Eğer bu değere 0 verilirse fonksiyon sonsuza dek(veya başka bir komut tarafından
+	durduruluncaya kadar) çalışmaya devam edecektir. Buradan anlayacağımız şey lambaDurumuDegistir
+	fonksiyonunun sonsuza kadar(veya durdurulana kadar) saniyede bir çalıştırılacağıdır.
+	*/
 
-  gorevLst.setTimer( analogPinOku, 500, 0 ); /*Burada da 500 milisaniyede bir sonsuza kadar çalışacak bir
-  fonksiyon kütüphaneye bildiriliyor. Bu fonksiyon analog bir pinden aldığı değeri seri monitöre yazdıracak.*/
+	gorevLst.setTimer( analogPinOku, 500, 0 ); /*Burada da 500 milisaniyede bir sonsuza kadar çalışacak bir
+	fonksiyon kütüphaneye bildiriliyor. Bu fonksiyon analog bir pinden aldığı değeri seri monitöre yazdıracak.*/
 
-  gorevLst.addThread( serialKontrolEt ); /*Ayni zamanda sürekli çalışacak bir fonksiyon da tanımlayabiliriz.
-  Bunun için addThread komutunu kullanarak fonksiyonun ismini vermemiz yeterli.*/
+	gorevLst.addThread( serialKontrolEt ); /*Ayni zamanda sürekli çalışacak bir fonksiyon da tanımlayabiliriz.
+	Bunun için addThread komutunu kullanarak fonksiyonun ismini vermemiz yeterli.*/
 
-  gorevLst.setTimer( acikKalmaSuresiYaz, 5000, 10 ); /*Bir de arduino'nun kaç saniyedir açık kaldığını seri
-  monitöre yazdıracak bir fonksiyon ekleyelim. Bu fonksiyon diğerlerinin aksine 10 kere çalışacak.*/
+	gorevLst.setTimer( acikKalmaSuresiYaz, 5000, 10 ); /*Bir de arduino'nun kaç saniyedir açık kaldığını seri
+	monitöre yazdıracak bir fonksiyon ekleyelim. Bu fonksiyon diğerlerinin aksine 10 kere çalışacak.*/
 
-  gorevLst.startTasks(); /*Kütüphaneyi çalıştırmaya başlıyoruz. Artık setup içerisinde bu komuttan sonra
-  kütüphanenin çalışması durdurulana kadar hiçbir komut çalışmaz. Bu fonksiyon temel olarak bir sonsuz döngüdür.*/
+	gorevLst.startTasks(); /*Kütüphaneyi çalıştırmaya başlıyoruz. Artık setup içerisinde bu komuttan sonra
+	kütüphanenin çalışması durdurulana kadar hiçbir komut çalışmaz. Bu fonksiyon temel olarak bir sonsuz döngüdür.*/
 }
 
 /*Loop yine normalde olduğu gibi sonsuza kadar çalışmaya devam edecektir. İçine başka kodlar yazabilirsiniz veya
@@ -98,9 +98,11 @@ void lambaDurumuDegistir () { /*Burada önemli olan nokta fonksiyonun hiçbir de
 	Bu durum bütün fonksiyonlar için geçerlidir.*/
 	if( lambaDurumu == false ) { //Bu fonksiyon eğer lamba kapalı ise
 		digitalWrite(LED, HIGH); //lambayı açıyor,
+    	lambaDurumu = 1; //Lamba durumunu 1(açık) olarak kaydediyoruz.
 	}
 	else { //Eğer lamba açık ise
-		digitalWrite(LED, LOW); //Lambayı kapatıyor.
+		digitalWrite(LED, LOW); //Lambayı kapatıyor,
+    	lambaDurumu = 0; //Lamba durumunu 0(kapalı) olarak kaydediyoruz.
 	}
 } //İlk fonksiyonumuzun tanımı bu kadardı. Bu fonksiyon setup içerisinde saniyede bir çalışacak şekilde ayarlanmıştır.
 
@@ -112,7 +114,7 @@ void analogPinOku () { //Analog pini okuyup seri monitöre yazdıracak fonksiyon
 void serialKontrolEt () { /*Burada serialden bir değer geldiğinde ekrana o değerin ne olduğunu yazdıran bir fonksiyon
 	tanımlıyoruz.*/
 	if( Serial.available() > 0 ) { //Eğer serialden bir değer okunursa aşağıdakileri yap.4
-		Serial.print("Serialden gönderilen değer: "); //Seri monitöre gönderilen değer için bir açıklama yaz.
+		Serial.print("Serialden gonderilen deger: "); //Seri monitöre gönderilen değer için bir açıklama yaz.
 		char seriDeger = Serial.read(); //Serialden değeri okuyup bir değişkene kaydet.
 		Serial.write(seriDeger); //Bu değişkeni seri monitöre yazdır.
 		Serial.println(""); //Alt satıra geç.
@@ -120,7 +122,7 @@ void serialKontrolEt () { /*Burada serialden bir değer geldiğinde ekrana o de�
 }
 
 void acikKalmaSuresiYaz () { //Burda arduinoyu başlattığımızdan beri geçen süreyi yazan bir fonksiyon tanımlıyoruz.
-	Serial.print("Açık kalma süresi: "); //Verilen değer için tanım.
+	Serial.print("Acik kalma suresi: "); //Verilen değer için tanım.
 	Serial.println( millis() / 1000 ); /*Arduinonun açık kalma süresini seri monitöre yazdırıyoruz. Buradaki millis()
 	fonksiyonu arduino açıldığından beri geçen zamanı milisaniye cinsinden verir. Bu değeri 1000'e bölersek arduino'nun
 	kaç saniyedir açık durduğunu hesaplayabiliriz.*/
