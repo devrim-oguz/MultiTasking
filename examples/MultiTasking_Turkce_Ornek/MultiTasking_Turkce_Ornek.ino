@@ -150,6 +150,14 @@ void acikKalmaSuresiYaz () { //Burda arduinoyu başlattığımızdan beri geçen
 	durdurulana kadar çalışmaz.
 
 	//======================================================================================================================
+	--- stopTasks() ---
+	Bu fonksiyon kod içerisinde herhangibir yerden çağırıldığında startTasks'ın başlattığı sonsuz döngü durur. Başka bir
+	değişle kütüphane çalışmayı durdurur. Bunun sonucu olarak bütün Threadlar ve Timerlar da durur. Bu kod çağırıldıktan
+	sonra program startTasks'ın çağırıldığı yerden itibaren çalışmaya devam eder ancak kütüphane ile çağırılmış olan bütün
+	fonksiyonlar çalışmayı durdurur. stopTasks komutundan sonra istenildiği zaman startTasks ile kütüphane kaldığı yerden
+	çalışmaya devam ettirilebilir.
+
+	//======================================================================================================================
 	--- removeThread( fonksiyonİsmi ) ---
 	Bu fonksiyon addThread tarafından önceden eklenmiş fonksiyonları kaldırmak için kullanılır.
 	Eğer işlem başarılı olursa 1, diğer durumlarda 0 değeri döndürür.
