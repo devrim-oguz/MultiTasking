@@ -98,11 +98,11 @@ void lambaDurumuDegistir () { /*Burada önemli olan nokta fonksiyonun hiçbir de
 	Bu durum bütün fonksiyonlar için geçerlidir.*/
 	if( lambaDurumu == false ) { //Bu fonksiyon eğer lamba kapalı ise
 		digitalWrite(LED, HIGH); //lambayı açıyor,
-    	lambaDurumu = 1; //Lamba durumunu 1(açık) olarak kaydediyoruz.
+		lambaDurumu = 1; //Lamba durumunu 1(açık) olarak kaydediyoruz.
 	}
 	else { //Eğer lamba açık ise
 		digitalWrite(LED, LOW); //Lambayı kapatıyor,
-    	lambaDurumu = 0; //Lamba durumunu 0(kapalı) olarak kaydediyoruz.
+		lambaDurumu = 0; //Lamba durumunu 0(kapalı) olarak kaydediyoruz.
 	}
 } //İlk fonksiyonumuzun tanımı bu kadardı. Bu fonksiyon setup içerisinde saniyede bir çalışacak şekilde ayarlanmıştır.
 
