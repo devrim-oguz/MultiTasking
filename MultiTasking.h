@@ -34,8 +34,8 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		void findEmptyThread( void ); //A function to find the first empty thread of the thread array.
 		void findEmptyTimer( void ); //A function to find the first empty timer of the timer array.
 	public: //Public functions;
-		int addThread( void ( * )( void ) ); //A function for adding a thread to run continuously.
-		int setTimer( void ( * )( void ), unsigned int, unsigned int ); //A function to add a timer to run periodically.
+		boolean addThread( void ( * )( void ) ); //A function for adding a thread to run continuously.
+		boolean setTimer( void ( * )( void ), unsigned int, unsigned int ); //A function to add a timer to run periodically.
 		boolean isThreadRunning( void ( * )( void ) ); //A function to determine whether the thread is added or not.
 		boolean isTimerRunning( void ( * )( void ) ); //A function to determine whether the timer is added or not.
 		void removeThread( void ( * )( void ) ); //A function for removing an added thread.

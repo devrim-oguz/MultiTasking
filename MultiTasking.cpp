@@ -33,7 +33,7 @@ void TaskList::stopTasks( void ) { //Defining a function to stop endless loop of
 	_TaskListState = 0; //Setting the boolean value as False.
 }
 
-int TaskList::addThread( void ( *threadFunction )( void ) ) //A function for adding a thread.
+boolean TaskList::addThread( void ( *threadFunction )( void ) ) //A function for adding a thread.
 { //Checking the thread list for empty space and same functions.
   if( ( _lastThreadFunction < ( MAXIMUM_THREADS - 1 ) ) && !isThreadRunning( threadFunction ) ) {
     _threadList[ _firstThreadSpace ].functionPointer = threadFunction; //Adding function pointer to the list.
@@ -49,7 +49,7 @@ int TaskList::addThread( void ( *threadFunction )( void ) ) //A function for add
   }
 }
 //A function for adding a timer.
-int TaskList::setTimer( void ( *timerFunction )( void ), unsigned int repeatInterval, unsigned int execAmount )
+boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned int repeatInterval, unsigned int execAmount )
 { //Checking the timer lislt for empty space and same functions.
   if( ( _lastTimerFunction < ( MAXIMUM_TIMERS - 1 ) ) && !isTimerRunning( timerFunction ) ) {
     _timerList[ _firstTimerSpace ].execInterval = repeatInterval; //Setting repeat interval as given value.
