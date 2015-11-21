@@ -195,7 +195,7 @@ void acikKalmaSuresiYaz () { //Burda arduinoyu başlattığımızdan beri geçen
 
 	Buradaki MAXIMUM_THREADS ve MAXIMUM_TIMERS değerlerini değiştirerek kendi ihtiyaçlarınıza uygun ayarlayabilirsiniz.
 
-	Kütüphane varsayılan ayarlarda Arduino UNO üzerinde ortalama 529 Byte (%29) RAM kullanmaktadır.
+	Kütüphane varsayılan ayarlarda Arduino UNO üzerinde ortalama 346 Byte (%16) RAM kullanmaktadır.
 	Arduino UNO için her thread RAM üzerinde tahmini 3 byte, her timer tahmini 9 byte yer harcamaktadır.
 
 	!!!KÜTÜPHANEYİ KULLANDIĞINIZ İÇİN TEŞEKKÜRLER!!!
