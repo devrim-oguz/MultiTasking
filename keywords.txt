@@ -1,7 +1,7 @@
 MultiTasking	KEYWORD1
-TaskList	KEYWORD1
-startTasks	KEYWORD3
-stopTasks	KEYWORD3
+superTask	KEYWORD1
+startTasks	KEYWORD2
+stopTasks	KEYWORD2
 addThread	KEYWORD2
 setTimer	KEYWORD2
 isThreadRunning	KEYWORD2
@@ -11,3 +11,4 @@ killTimer	KEYWORD2
 flushThreads	KEYWORD2
 flushTimers	KEYWORD2
 flushAll	KEYWORD2
+getSpeed	KEYWORD2

@@ -31,6 +31,7 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		byte _firstThreadSpace = 0, _firstTimerSpace = 0; //Two values to hold the first empty thread and timer.
 		int  _lastThreadFunction = -1, _lastTimerFunction = -1; //Two values to hold the last thread and timer.
 		boolean _TaskListState = 0; //A boolean value to hold the state of TaskList.
+		unsigned long _threadListStartTime = 0, _threadListEndTime = 0, _lastThreadListStartTime = 0;
 		void findEmptyThread( void ); //A function to find the first empty thread of the thread array.
 		void findEmptyTimer( void ); //A function to find the first empty timer of the timer array.
 	public: //Public functions;
@@ -45,7 +46,10 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		void flushThreads( void ); //A function for deleting all threads in thread array.
 		void flushTimers( void ); //A function for deleting all timers in timer array.
 		void flushAll( void ); //A function for deleting all timers and threads.
+		unsigned long getSpeed( void );
 };
+
+extern TaskList superTask;
 
 #endif //Ending include protection.
 

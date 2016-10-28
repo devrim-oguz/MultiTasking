@@ -8,9 +8,6 @@ Yaptığım yazım hatalarını mazur görün :-)
 
 #include <MultiTasking.h>  //Başlamadan önce kütüphanemizi eklemezsek olmaz ;)
 
-TaskList gorevLst; //Kütüphaneyi kullanmak için ilk önce bir görev listesi oluşturmalıyız.
-//Tabiki ismini istediğiniz gibi belirleyebilirsiniz. Burada verdiğimiz isim: "gorevLst".
-
 /*
 Bu kütüphanenin amacı arduino üzerinde aynı anda birden çok işlem gerçekleştirmeyi
 kolay bir hale getirmektir. Arduino Uno donanımsal olarak aynı anda birden çok işlem yapabilme
@@ -61,7 +58,7 @@ void setup() {
 
 	//Not: fonksiyon tanımları loop fonksiyonundan sonra yapılmıştır.
 
-	gorevLst.setTimer( lambaDurumuDegistir, 1000, 0 ); /*Lambanın durumunu değiştirecek fonksiyonun
+	superTask.setTimer( lambaDurumuDegistir, 1000, 0 ); /*Lambanın durumunu değiştirecek fonksiyonun
 	saniyede bir çağırılması için bu fonksiyonun ismini, ne kadar sürede bir çalıştıracağımızı ve
 	kaç kere çalıştıracağımızı kütüphanemize bildirelim. Buradaki lambaDurumu değiştir lambayı yakıp
 	söndürecek fonksiyonu, "1000" yazan yer fonksiyonun kaç milisaniyede bir çağırılacağını
@@ -71,16 +68,16 @@ void setup() {
 	fonksiyonunun sonsuza kadar(veya durdurulana kadar) saniyede bir çalıştırılacağıdır.
 	*/
 
-	gorevLst.setTimer( analogPinOku, 500, 0 ); /*Burada da 500 milisaniyede bir sonsuza kadar çalışacak bir
+	superTask.setTimer( analogPinOku, 500, 0 ); /*Burada da 500 milisaniyede bir sonsuza kadar çalışacak bir
 	fonksiyon kütüphaneye bildiriliyor. Bu fonksiyon analog bir pinden aldığı değeri seri monitöre yazdıracak.*/
 
-	gorevLst.addThread( serialKontrolEt ); /*Ayni zamanda sürekli çalışacak bir fonksiyon da tanımlayabiliriz.
+	superTask.addThread( serialKontrolEt ); /*Ayni zamanda sürekli çalışacak bir fonksiyon da tanımlayabiliriz.
 	Bunun için addThread komutunu kullanarak fonksiyonun ismini vermemiz yeterli.*/
 
-	gorevLst.setTimer( acikKalmaSuresiYaz, 5000, 10 ); /*Bir de arduino'nun kaç saniyedir açık kaldığını seri
+	superTask.setTimer( acikKalmaSuresiYaz, 5000, 10 ); /*Bir de arduino'nun kaç saniyedir açık kaldığını seri
 	monitöre yazdıracak bir fonksiyon ekleyelim. Bu fonksiyon diğerlerinin aksine 10 kere çalışacak.*/
 
-	gorevLst.startTasks(); /*Kütüphaneyi çalıştırmaya başlıyoruz. Artık setup içerisinde bu komuttan sonra
+	superTask.startTasks(); /*Kütüphaneyi çalıştırmaya başlıyoruz. Artık setup içerisinde bu komuttan sonra
 	kütüphanenin çalışması durdurulana kadar hiçbir komut çalışmaz. Bu fonksiyon temel olarak bir sonsuz döngüdür.*/
 }
 

@@ -1,7 +1,5 @@
 #include <MultiTasking.h>  //Adding the MultiTasking library.
 
-TaskList myTasks; //Creating a TaskList named myTasks.
-
 int LED = 13; //Defining LED pin as 13.
 int analogPin = A0; //Defining analog input pin as A0.
 int analogValue = 0; //Creating an integer to hold analog readings.
@@ -9,10 +7,10 @@ int analogValue = 0; //Creating an integer to hold analog readings.
 void setup() { //Setup Function
   Serial.begin(9600); //Starting serial in 9600 bauds.
   pinMode( LED, OUTPUT ); //Setting LED pin as OUTPUT.
-  myTasks.setTimer( count, 1000, 10 ); //Adding a timer to call the function "count" every 1000 milisecond for 10 times.
-  myTasks.setTimer( newTasks, 15000, 1 ); //Adding a timer to call the function "newTasks" just for 1 time.
+  superTask.setTimer( count, 1000, 10 ); //Adding a timer to call the function "count" every 1000 milisecond for 10 times.
+  superTask.setTimer( newTasks, 15000, 1 ); //Adding a timer to call the function "newTasks" just for 1 time.
                                           //Timer will start after 15000 miliseconds.( 15 second )
-  myTasks.startTasks(); //Starting tasks.
+  superTask.startTasks(); //Starting tasks.
   //No code will work underneath here until you stop MultiTasking.
   //Don't use any delay function or endless loop, because it will stop the other tasks.
   //Every code works one by one. So if you stop the flow of the code, the whole program will stop.
@@ -26,10 +24,10 @@ void count() { //Declaring a function to print seconds until reset or start.
 }
 
 void newTasks() { //Declaring a function named newTasks which will add new tasks to the TaskList.
-  myTasks.addThread( measureAnalogValue ); //Adding a thread to run continuously withouth any delays.
-  myTasks.setTimer( blinkLED, 1000, 0 ); //Calling blinkLED function every second, forever.( or until you stop them )
-  myTasks.setTimer( sayHello, 5000, 0 ); //Calling sayHello function every 5 seconds, forever.
-  myTasks.setTimer( printAnalogValue, 500, 0 ); //Calling printAnalogValue function every 500 milisecond.
+  superTask.addThread( measureAnalogValue ); //Adding a thread to run continuously withouth any delays.
+  superTask.setTimer( blinkLED, 1000, 0 ); //Calling blinkLED function every second, forever.( or until you stop them )
+  superTask.setTimer( sayHello, 5000, 0 ); //Calling sayHello function every 5 seconds, forever.
+  superTask.setTimer( printAnalogValue, 500, 0 ); //Calling printAnalogValue function every 500 milisecond.
 }
 
 void measureAnalogValue() { //Declaring a function to run continuously. It reads the analog pin and writes it to an int.

@@ -1,15 +1,21 @@
 #include "Arduino.h" /*Adding standard arduino library.*/
 #include "MultiTasking.h" /*Adding MultiTasking header file.*/
 
+TaskList superTask;
+
 void TaskList::startTasks( void )  /*This function is an endless loop which calls all timers and threads*/
 { 								   /*depending on their state.*/
   _TaskListState = 1; //Setting TaskListState as True to run the endless loop.
   while( _TaskListState ) { //Endless loop which controls the TaskListState variable.
+
+  	_threadListStartTime = micros(); //Keeping the thread list start time to calculate the refresh speed.
+
     for( byte i = 0; i <= _lastThreadFunction; i++ ) { //A cycle for running all threads.
 	  if( _threadList[i].placeHolder ) { //Controlling whether the thread is active or not.
 	  	( *_threadList[i].functionPointer )(); //Calling a thread.
 	  }
     }
+
     for( byte i = 0; i <= _lastTimerFunction; i++ ) { //A cycle for running all timers.
       if( _timerList[i].placeHolder ) { //Controlling whether the timer is active or not.
         unsigned int currentTime = millis(); //Getting the current time for checking the timer information.
@@ -26,7 +32,13 @@ void TaskList::startTasks( void )  /*This function is an endless loop which call
       }
     }
     loop(); //Calling the loop function.
+    _lastThreadListStartTime = _threadListStartTime;
+    _threadListEndTime = micros();
   }
+}
+
+unsigned long TaskList::getSpeed( void ) { //Defining a function to get the refreshing speed of the library in Hertz.
+	return (unsigned long)(1000000 / (_threadListEndTime - _lastThreadListStartTime ));
 }
 
 void TaskList::stopTasks( void ) { //Defining a function to stop endless loop of MultiTasking.
