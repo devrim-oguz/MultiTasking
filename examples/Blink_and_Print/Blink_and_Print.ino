@@ -27,7 +27,8 @@ void newTasks() { //Declaring a function named newTasks which will add new tasks
   superTask.addThread( measureAnalogValue ); //Adding a thread to run continuously withouth any delays.
   superTask.setTimer( blinkLED, 1000, 0 ); //Calling blinkLED function every second, forever.( or until you stop them )
   superTask.setTimer( sayHello, 5000, 0 ); //Calling sayHello function every 5 seconds, forever.
-  superTask.setTimer( printAnalogValue, 500, 0 ); //Calling printAnalogValue function every 500 milisecond.
+  superTask.setTimer( printAnalogValue, 500000, 0, MICRO ); //Calling printAnalogValue function every 500000 microseconds.
+  															//This is an example on how to call the micro timer method.
 }
 
 void measureAnalogValue() { //Declaring a function to run continuously. It reads the analog pin and writes it to an int.

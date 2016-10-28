@@ -17,31 +17,54 @@ void TaskList::startTasks( void )  /*This function is an endless loop which call
     }
 
     for( byte i = 0; i <= _lastTimerFunction; i++ ) { //A cycle for running all timers.
+
       if( _timerList[i].placeHolder ) { //Controlling whether the timer is active or not.
-        unsigned long currentTime = millis(); //Getting the current time for checking the timer information.
+
+        static unsigned long currentTime = 0; //Getting the current time for checking the timer information.
+
+        if( _timerList[i].timerType ) { //Checking if the timer is a micro or milli timer.
+        	currentTime = micros();  //Recording the current time for calculations.
+        }
+        else {
+        	currentTime = millis(); //Recording the current time for calculations.
+        }
+
         if( ( currentTime - _timerList[i].lastExecTime ) >= _timerList[i].execInterval ) { //Checking for execution.
+
           if( _timerList[i].timesToExec == 1 ) { //If timesToExec is 1, run it one time and remove it.
             killTimer( _timerList[i].functionPointer ); //Function for removing timers.
           }
           else if( _timerList[i].timesToExec > 1 ) { //If timesToExec is more than 1, run it and make it one less.
             _timerList[i].timesToExec--; //Subtracting 1 from timesToExec.
           }
-          _timerList[i].lastExecTime = millis(); //Setting the last runtime of the function.
+
+          if( _timerList[i].timerType ) { //Checking if the timer is a micro or milli timer.
+        	_timerList[i].lastExecTime = micros();  //Recording the current time for last execution time.
+	      }
+	      else {
+	        _timerList[i].lastExecTime = millis();  //Recording the current time for last execution time.
+	      }
+
           ( *_timerList[i].functionPointer )(); //Calling the function.
         }
       }
     }
+
     loop(); //Calling the loop function.
-    _lastThreadListStartTime = _threadListStartTime;
-    _threadListEndTime = micros();
+
+    _lastThreadListStartTime = _threadListStartTime;  //Updating the last start time for calculations.
+    _threadListEndTime = micros();  //Recording the current time for refresh rate calculation.
   }
 }
 
-unsigned long TaskList::getSpeed( void ) { //Defining a function to get the refreshing speed of the library in Hertz.
-	return (unsigned long)(1000000 / (_threadListEndTime - _lastThreadListStartTime ));
+unsigned long TaskList::getSpeed( void )
+{ //Defining a function to get the refreshing speed of the library in Hertz. (Executions per second)
+  return (unsigned long)( 1000000 / (_threadListEndTime - _lastThreadListStartTime ) ); //Calculating the speed
+  // 1 Second = 1000000 Micro Seconds
 }
 
-void TaskList::stopTasks( void ) { //Defining a function to stop endless loop of MultiTasking.
+void TaskList::stopTasks( void )
+{ //Defining a function to stop endless loop of MultiTasking.
 	_TaskListState = 0; //Setting the boolean value as False.
 }
 
@@ -60,18 +83,34 @@ boolean TaskList::addThread( void ( *threadFunction )( void ) ) //A function for
 	 return 0; //return 0.
   }
 }
-//A function for adding a timer.
+
 boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount )
+{ //Overloaded setTimer function, calls setTimer method with MILLI parameter. ( Milli Timer )
+  setTimer( timerFunction, repeatInterval, execAmount, MILLI );
+}
+
+//A function for adding a timer.
+
+boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount, boolean typeSelection )
 { //Checking the timer lislt for empty space and same functions.
   if( ( _lastTimerFunction < ( MAXIMUM_TIMERS - 1 ) ) && !isTimerRunning( timerFunction ) ) {
     _timerList[ _firstTimerSpace ].execInterval = repeatInterval; //Setting repeat interval as given value.
     _timerList[ _firstTimerSpace ].timesToExec = execAmount; //Setting execAmount as given value.
     _timerList[ _firstTimerSpace ].functionPointer = timerFunction; //Adding function pointer to the list.
-    _timerList[ _firstTimerSpace ].lastExecTime = millis(); //Setting the lastruntime as adding time.
+    _timerList[ _firstTimerSpace ].timerType = typeSelection;
+
+    if( typeSelection ) { //Checking the type of the timer
+    	_timerList[ _firstTimerSpace ].lastExecTime = micros(); //Setting the adding time as last run time.
+    }
+    else {
+    	_timerList[ _firstTimerSpace ].lastExecTime = millis(); //Setting the adding time as last run time.
+    }
+
     _timerList[ _firstTimerSpace ].placeHolder = 1; //Setting the timer as active.
     if( _lastTimerFunction < _firstTimerSpace ){ //Checking if the last timer is before than the first space
       _lastTimerFunction = _firstTimerSpace; //If so, setting the last timer as first space.
     }
+
     findEmptyTimer(); //Finding the next empty space.
     return 1; //If operation succeed, return 1.
   }

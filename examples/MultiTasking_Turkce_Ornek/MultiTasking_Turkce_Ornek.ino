@@ -68,8 +68,9 @@ void setup() {
 	fonksiyonunun sonsuza kadar(veya durdurulana kadar) saniyede bir çalıştırılacağıdır.
 	*/
 
-	superTask.setTimer( analogPinOku, 500, 0 ); /*Burada da 500 milisaniyede bir sonsuza kadar çalışacak bir
+	superTask.setTimer( analogPinOku, 500000, 0, MICRO ); /*Burada da 500000 mikrosaniyede bir sonsuza kadar çalışacak bir
 	fonksiyon kütüphaneye bildiriliyor. Bu fonksiyon analog bir pinden aldığı değeri seri monitöre yazdıracak.*/
+	//Bu komut, setTimer fonksiyonunu mikrosaniye modunda çağırmaya bir örnektir.
 
 	superTask.addThread( serialKontrolEt ); /*Ayni zamanda sürekli çalışacak bir fonksiyon da tanımlayabiliriz.
 	Bunun için addThread komutunu kullanarak fonksiyonun ismini vermemiz yeterli.*/
