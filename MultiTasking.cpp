@@ -18,7 +18,7 @@ void TaskList::startTasks( void )  /*This function is an endless loop which call
 
     for( byte i = 0; i <= _lastTimerFunction; i++ ) { //A cycle for running all timers.
       if( _timerList[i].placeHolder ) { //Controlling whether the timer is active or not.
-        unsigned int currentTime = millis(); //Getting the current time for checking the timer information.
+        unsigned long currentTime = millis(); //Getting the current time for checking the timer information.
         if( ( currentTime - _timerList[i].lastExecTime ) >= _timerList[i].execInterval ) { //Checking for execution.
           if( _timerList[i].timesToExec == 1 ) { //If timesToExec is 1, run it one time and remove it.
             killTimer( _timerList[i].functionPointer ); //Function for removing timers.
@@ -61,7 +61,7 @@ boolean TaskList::addThread( void ( *threadFunction )( void ) ) //A function for
   }
 }
 //A function for adding a timer.
-boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned int repeatInterval, unsigned int execAmount )
+boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount )
 { //Checking the timer lislt for empty space and same functions.
   if( ( _lastTimerFunction < ( MAXIMUM_TIMERS - 1 ) ) && !isTimerRunning( timerFunction ) ) {
     _timerList[ _firstTimerSpace ].execInterval = repeatInterval; //Setting repeat interval as given value.
