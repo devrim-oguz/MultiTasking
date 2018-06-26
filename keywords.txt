@@ -1,6 +1,7 @@
 MultiTasking	KEYWORD1
 superTask	KEYWORD1
 startTasks	KEYWORD2
+cycleTasks	KEYWORD2
 stopTasks	KEYWORD2
 addThread	KEYWORD2
 setTimer	KEYWORD2

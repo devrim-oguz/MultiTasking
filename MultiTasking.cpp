@@ -50,11 +50,61 @@ void TaskList::startTasks( void )  /*This function is an endless loop which call
       }
     }
 
-    loop(); //Calling the loop function.
+    IF_LOOP_ENABLED loop(); //Calling the loop function.
 
     _lastThreadListStartTime = _threadListStartTime;  //Updating the last start time for calculations.
     _threadListEndTime = micros();  //Recording the current time for refresh rate calculation.
   }
+}
+
+void TaskList::cycleTasks( void )  /*This function is an finite call which calls all timers and threads*/
+{ 								   /*depending on their state.*/
+  	_threadListStartTime = micros(); //Keeping the thread list start time to calculate the refresh speed.
+
+    for( byte i = 0; i <= _lastThreadFunction; i++ ) { //A cycle for running all threads.
+	  if( _threadList[i].placeHolder ) { //Controlling whether the thread is active or not.
+	  	( *_threadList[i].functionPointer )(); //Calling a thread.
+	  }
+    }
+
+    for( byte i = 0; i <= _lastTimerFunction; i++ ) { //A cycle for running all timers.
+
+      if( _timerList[i].placeHolder ) { //Controlling whether the timer is active or not.
+
+        static unsigned long currentTime = 0; //Getting the current time for checking the timer information.
+
+        if( _timerList[i].timerType ) { //Checking if the timer is a micro or milli timer.
+        	currentTime = micros();  //Recording the current time for calculations.
+        }
+        else {
+        	currentTime = millis(); //Recording the current time for calculations.
+        }
+
+        if( ( currentTime - _timerList[i].lastExecTime ) >= _timerList[i].execInterval ) { //Checking for execution.
+
+          if( _timerList[i].timesToExec == 1 ) { //If timesToExec is 1, run it one time and remove it.
+            killTimer( _timerList[i].functionPointer ); //Function for removing timers.
+          }
+          else if( _timerList[i].timesToExec > 1 ) { //If timesToExec is more than 1, run it and make it one less.
+            _timerList[i].timesToExec--; //Subtracting 1 from timesToExec.
+          }
+
+          if( _timerList[i].timerType ) { //Checking if the timer is a micro or milli timer.
+        	_timerList[i].lastExecTime = micros();  //Recording the current time for last execution time.
+	      }
+	      else {
+	        _timerList[i].lastExecTime = millis();  //Recording the current time for last execution time.
+	      }
+
+          ( *_timerList[i].functionPointer )(); //Calling the function.
+        }
+      }
+    }
+
+    //loop(); //Calling the loop function.
+
+    _lastThreadListStartTime = _threadListStartTime;  //Updating the last start time for calculations.
+    _threadListEndTime = micros();  //Recording the current time for refresh rate calculation.
 }
 
 unsigned long TaskList::getSpeed( void )
@@ -179,7 +229,7 @@ boolean TaskList::isThreadRunning( void ( *threadAddress )( void ) ) //A functio
   return 0; //If not found, return 0.
 }
 
-boolean TaskList::isTimerRunning( void ( *timerAddress )( void ) ) 
+boolean TaskList::isTimerRunning( void ( *timerAddress )( void ) )
 { //This function works just like the same as before. ( isThreadRunning )
   for( byte j = 0; j <= _lastTimerFunction; j++ ) {
     if( timerAddress == _timerList[j].functionPointer ) {
@@ -199,7 +249,7 @@ void TaskList::flushThreads( void )  //A function for deleting all threads.
   _lastThreadFunction = -1; //Setting the last thread function as -1, which is none.
 }
 
-void TaskList::flushTimers( void ) 
+void TaskList::flushTimers( void )
 { //This function works just like the same as before. ( flushThreads )
   for( byte i = 0; i < MAXIMUM_TIMERS; i++ ) {
     _timerList[i].execInterval = 0; //Setting execInterval as 0,

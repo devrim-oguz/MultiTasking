@@ -3,11 +3,15 @@
 
 //Maximum amount of threads can be set here:
 #ifndef MAXIMUM_THREADS
-#define MAXIMUM_THREADS 50 //Max is 255 
+#define MAXIMUM_THREADS 50 //Max is 255
 #endif
 //Maximum amount of timers can be set here:
 #ifndef MAXIMUM_TIMERS
 #define MAXIMUM_TIMERS	20 //Max is 255
+#endif
+
+#ifndef MAIN_LOOP_ENABLED
+#define MAIN_LOOP_ENABLED	true //Change for activating or deactivating the main loop
 #endif
 
 #ifndef MILLI
@@ -16,6 +20,10 @@
 
 #ifndef MICRO
 #define MICRO	true //Max is 255
+#endif
+
+#ifndef IF_LOOP_ENABLED
+#define IF_LOOP_ENABLED	if(MAIN_LOOP_ENABLED)  //Used for either enabling or disabling the main loop
 #endif
 
 #include "Arduino.h" //Adding standard Arduino library.
@@ -40,7 +48,7 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		byte _firstThreadSpace = 0, _firstTimerSpace = 0; //Two values to hold the first empty thread and timer.
 		int  _lastThreadFunction = -1, _lastTimerFunction = -1; //Two values to hold the last thread and timer.
 		boolean _TaskListState = 0; //A boolean value to hold the state of TaskList.
-		unsigned long _threadListStartTime = 0, _threadListEndTime = 0, _lastThreadListStartTime = 0; 
+		unsigned long _threadListStartTime = 0, _threadListEndTime = 0, _lastThreadListStartTime = 0;
 		//Variables to hold the thread start and stop times to calculate the refresh rate of the library.
 		void findEmptyThread( void ); //A function to find the first empty thread of the thread array.
 		void findEmptyTimer( void ); //A function to find the first empty timer of the timer array.
@@ -53,6 +61,7 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		void removeThread( void ( * )( void ) ); //A function for removing an added thread.
 		void killTimer( void ( * )( void ) ); //A function for removing an added timer.
 		void startTasks( void ); //A function to start MultiTasking, which is an endless loop.
+		void cycleTasks( void ); //A function to cycle trough MultiTasking tasks once, used for user defined schedulers and loops.
 		void stopTasks( void ); //A function for stopping MultiTasking. ( stopping the endless loop )
 		void flushThreads( void ); //A function for deleting all threads in thread array.
 		void flushTimers( void ); //A function for deleting all timers in timer array.
