@@ -63,8 +63,8 @@ void TaskList::cycleTasks( void )  /*This function is an finite call which calls
 
   for( byte i = 0; i <= _lastThreadFunction; i++ ) { //A cycle for running all threads.
     if( _threadList[i].placeHolder ) { //Controlling whether the thread is active or not.
-	  	( *_threadList[i].functionPointer )(); //Calling the thread.
-	  }
+      ( *_threadList[i].functionPointer )(); //Calling the thread.
+    }
   }
 
   for( byte i = 0; i <= _lastTimerFunction; i++ ) { //A cycle for running all timers.
