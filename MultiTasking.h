@@ -11,7 +11,7 @@
 #endif
 
 #ifndef MAIN_LOOP_ENABLED
-#define MAIN_LOOP_ENABLED	true //Change for activating or deactivating the main loop
+#define MAIN_LOOP_ENABLED true //Change for activating or deactivating the main loop
 #endif
 
 #ifndef MILLI
