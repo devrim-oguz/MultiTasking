@@ -90,7 +90,7 @@ boolean TaskList::addThread( void ( *threadFunction )( void ) ) //A function for
 
 boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount )
 { //Overloaded setTimer function, calls setTimer method with MILLI parameter. ( Milli Timer )
-  setTimer( timerFunction, repeatInterval, execAmount, MILLI );
+  return setTimer( timerFunction, repeatInterval, execAmount, MILLI );
 }
 
 //A function for adding a timer.
