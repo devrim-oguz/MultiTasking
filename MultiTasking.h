@@ -3,11 +3,11 @@
 
 //Maximum amount of threads can be set here:
 #ifndef MAXIMUM_THREADS
-#define MAXIMUM_THREADS 200 //Max is 255
+#define MAXIMUM_THREADS 25 //Max is 255
 #endif
 //Maximum amount of timers can be set here:
 #ifndef MAXIMUM_TIMERS
-#define MAXIMUM_TIMERS	100 //Max is 255
+#define MAXIMUM_TIMERS	15 //Max is 255
 #endif
 
 #ifndef MAIN_LOOP_ENABLED
