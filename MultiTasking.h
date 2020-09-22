@@ -52,6 +52,7 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		//Variables to hold the thread start and stop times to calculate the refresh rate of the library.
 		void findEmptyThread( void ); //A function to find the first empty thread of the thread array.
 		void findEmptyTimer( void ); //A function to find the first empty timer of the timer array.
+		inline void _killIndexedTimer( byte ); //A function for removing an added timer.
 	public: //Public functions;
 		boolean addThread( void ( * )( void ) ); //A function for adding a thread to run continuously.
 		boolean setTimer( void ( * )( void ), unsigned long, unsigned int );  //Overloaded setTimer function. Calls milli timer.
@@ -61,7 +62,7 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 		void removeThread( void ( * )( void ) ); //A function for removing an added thread.
 		void killTimer( void ( * )( void ) ); //A function for removing an added timer.
 		void startTasks( void ); //A function to start MultiTasking, which is an endless loop.
-		void cycleTasks( void ); //A function to cycle trough MultiTasking tasks once, used for user defined schedulers and loops.
+		inline void cycleTasks( void ); //A function to cycle trough MultiTasking tasks once, used for user defined schedulers and loops.
 		void stopTasks( void ); //A function for stopping MultiTasking. ( stopping the endless loop )
 		void flushThreads( void ); //A function for deleting all threads in thread array.
 		void flushTimers( void ); //A function for deleting all timers in timer array.

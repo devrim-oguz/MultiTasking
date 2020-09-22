@@ -11,7 +11,7 @@ void TaskList::startTasks( void )  /*This function is an endless loop which call
   } while( _TaskListState );
 }
 
-void TaskList::cycleTasks( void )  /*This function is an finite call which calls all timers and threads*/
+inline void TaskList::cycleTasks( void )  /*This function is an finite call which calls all timers and threads*/
 { 								   /*depending on their state.*/
   _threadListStartTime = micros(); //Keeping the thread list start time to calculate the refresh speed.
 
@@ -46,7 +46,7 @@ void TaskList::cycleTasks( void )  /*This function is an finite call which calls
         ( *_timerList[i].functionPointer )(); //Calling the function.
 
         if( _timerList[i].timesToExec == 1 ) { //If timesToExec is 1, run it one time and remove it.
-          killTimer( _timerList[i].functionPointer ); //Function for removing timers.
+          _killIndexedTimer(i); //Function for removing timers.
         }
         else if( _timerList[i].timesToExec > 1 ) { //If timesToExec is more than 1, run it and make it one less.
           _timerList[i].timesToExec--; //Subtracting 1 from timesToExec.
@@ -179,6 +179,18 @@ void TaskList::killTimer( void ( *timerAddress )( void ) ) //A function for remo
       _timerList[j].placeHolder = false;
     }
   }
+}
+
+inline void TaskList::_killIndexedTimer( byte inputIndex ) //A function for removing a timer.
+{ //This function works just like the same as before. ( removeThread )
+  if( inputIndex < _firstTimerSpace ) {
+    _firstTimerSpace = inputIndex;
+  }
+  if( inputIndex == _lastTimerFunction ) {
+    _lastTimerFunction--;
+  }
+  _timerList[inputIndex].functionPointer = NULL;
+  _timerList[inputIndex].placeHolder = false;
 }
 
 boolean TaskList::isThreadRunning( void ( *threadAddress )( void ) ) //A function for checking the state of a thread.
