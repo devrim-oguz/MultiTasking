@@ -1,13 +1,24 @@
 #ifndef MultiTasking_h  /*Standard including protection to avoid including the same library multiple times.*/
 #define MultiTasking_h
 
-//Maximum amount of threads can be set here:
-#ifndef MAXIMUM_THREADS
-#define MAXIMUM_THREADS 25 //Max is 255
-#endif
-//Maximum amount of timers can be set here:
-#ifndef MAXIMUM_TIMERS
-#define MAXIMUM_TIMERS	15 //Max is 255
+#if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+	//Maximum amount of threads can be set here:
+	#ifndef MAXIMUM_THREADS
+	#define MAXIMUM_THREADS 25 //Max is 255
+	#endif
+	//Maximum amount of timers can be set here:
+	#ifndef MAXIMUM_TIMERS
+	#define MAXIMUM_TIMERS	15 //Max is 255
+	#endif
+#else
+	//Maximum amount of threads can be set here:
+	#ifndef MAXIMUM_THREADS
+	#define MAXIMUM_THREADS 100 //Max is 255
+	#endif
+	//Maximum amount of timers can be set here:
+	#ifndef MAXIMUM_TIMERS
+	#define MAXIMUM_TIMERS	50 //Max is 255
+	#endif
 #endif
 
 #ifndef MAIN_LOOP_ENABLED
