@@ -18,5 +18,8 @@
     "license": "GPL-3.0-or-later",
     "homepage": "https://github.com/devrim-oguz/MultiTasking",
     "frameworks": ["atmelavr", "espressif8266", "espressif32", "ststm32"],
-    "platforms": "Arduino"
+    "platforms": "Arduino",
+    "build": {
+      "includeDir": "src/"
+    }
   }
