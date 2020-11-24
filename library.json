@@ -1,8 +1,8 @@
 {
     "name": "Arduino-MultiTasking",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "A cooperative multitasking and timer library for Arduino compatible boards.",
-    "keywords": "multitasking, multithreading, task, thread, timer, scheduler, tasking, threading",
+    "keywords": "multitasking, multithreading, task, thread, cooperative, timer, scheduler, scheduling, tasking, threading",
     "repository":
     {
       "type": "git",
@@ -12,12 +12,13 @@
     [
       {
         "name": "Ali Devrim OGUZ",
-        "url": "https://instagram.com/devrim.ogz"
+        "url": "https://instagram.com/devrim.ogz",
+        "maintainer": true
       }
     ],
     "license": "GPL-3.0-or-later",
     "homepage": "https://github.com/devrim-oguz/MultiTasking",
-    "frameworks": ["atmelavr", "espressif8266", "espressif32", "ststm32"],
+    "frameworks": "arduino",
     "platforms": "*",
     "build": {
       "includeDir": "src/"
