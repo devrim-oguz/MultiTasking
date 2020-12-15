@@ -69,10 +69,10 @@ unsigned long TaskList::getSpeed( void )
 
 void TaskList::stopTasks( void )
 { //Defining a function to stop endless loop of MultiTasking.
-	_TaskListState = 0; //Setting the boolean value as False.
+	_TaskListState = 0; //Setting the bool value as False.
 }
 
-boolean TaskList::addThread( void ( *threadFunction )( void ) ) //A function for adding a thread.
+bool TaskList::addThread( void ( *threadFunction )( void ) ) //A function for adding a thread.
 { //Checking the thread list for empty space and same functions.
   if( ( _lastThreadFunction < ( MAXIMUM_THREADS - 1 ) ) && !isThreadRunning( threadFunction ) ) {
     _threadList[ _firstThreadSpace ].functionPointer = threadFunction; //Adding function pointer to the list.
@@ -88,14 +88,14 @@ boolean TaskList::addThread( void ( *threadFunction )( void ) ) //A function for
   }
 }
 
-boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount )
+bool TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount )
 { //Overloaded setTimer function, calls setTimer method with MILLI parameter. ( Milli Timer )
   return setTimer( timerFunction, repeatInterval, execAmount, MILLI );
 }
 
 //A function for adding a timer.
 
-boolean TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount, boolean typeSelection )
+bool TaskList::setTimer( void ( *timerFunction )( void ), unsigned long repeatInterval, unsigned int execAmount, bool typeSelection )
 { //Checking the timer lislt for empty space and same functions.
   if( ( _lastTimerFunction < ( MAXIMUM_TIMERS - 1 ) ) && !isTimerRunning( timerFunction ) ) {
     _timerList[ _firstTimerSpace ].execInterval = repeatInterval; //Setting repeat interval as given value.
@@ -193,7 +193,7 @@ inline void TaskList::_killIndexedTimer( byte inputIndex ) //A function for remo
   _timerList[inputIndex].placeHolder = false;
 }
 
-boolean TaskList::isThreadRunning( void ( *threadAddress )( void ) ) //A function for checking the state of a thread.
+bool TaskList::isThreadRunning( void ( *threadAddress )( void ) ) //A function for checking the state of a thread.
 {
   for( byte j = 0; j <= _lastThreadFunction; j++ ) { //Searching whole list for a match.
     if( threadAddress == _threadList[j].functionPointer && _threadList[j].placeHolder ) { //If found,
@@ -203,7 +203,7 @@ boolean TaskList::isThreadRunning( void ( *threadAddress )( void ) ) //A functio
   return false; //If not found, return 0.
 }
 
-boolean TaskList::isTimerRunning( void ( *timerAddress )( void ) )
+bool TaskList::isTimerRunning( void ( *timerAddress )( void ) )
 { //This function works just like the same as before. ( isThreadRunning )
   for( byte j = 0; j <= _lastTimerFunction; j++ ) {
     if( timerAddress == _timerList[j].functionPointer && _timerList[j].placeHolder ) {
