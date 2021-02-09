@@ -63,7 +63,7 @@ inline void TaskList::cycleTasks( void )  /*This function is an finite call whic
 
 unsigned long TaskList::getSpeed( void )
 { //Defining a function to get the refreshing speed of the library in Hertz. (Executions per second)
-  return (unsigned long)( 1000000 / (_threadListEndTime - _lastThreadListStartTime ) ); //Calculating the speed
+  return (unsigned long)round( ( 1000000 / (double)(_threadListEndTime - _lastThreadListStartTime ) ) ); //Calculating the speed
   // 1 Second = 1000000 Micro Seconds
 }
 
