@@ -1,6 +1,6 @@
 {
     "name": "Arduino-MultiTasking",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "description": "A cooperative multitasking and timer library for Arduino compatible boards.",
     "keywords": "multitasking, multithreading, task, thread, cooperative, timer, scheduler, scheduling, tasking, threading",
     "repository":
