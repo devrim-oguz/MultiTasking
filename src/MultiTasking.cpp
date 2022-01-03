@@ -13,7 +13,6 @@ void TaskList::startTasks( void )  /*This function is an endless loop which call
 
 inline void TaskList::cycleTasks( void )  /*This function is an finite call which calls all timers and threads*/
 { 								   /*depending on their state.*/
-  _threadListStartTime = micros(); //Keeping the thread list start time to calculate the refresh speed.
 
   for( byte i = 0; i <= _lastThreadFunction; i++ ) { //A cycle for running all threads.
     if( _threadList[i].placeHolder ) { //Controlling whether the thread is active or not.
@@ -57,14 +56,19 @@ inline void TaskList::cycleTasks( void )  /*This function is an finite call whic
 
   //loop(); //Calling the loop function.
 
-  _lastThreadListStartTime = _threadListStartTime;  //Updating the last start time for calculations.
-  _threadListEndTime = micros();  //Recording the current time for refresh rate calculation.
+  _lastExecutionTime = _currentExecutionTime;  //Updating the last execution time for calculations.
+  _currentExecutionTime = micros();  //Recording the current execution time for calculations.
 }
 
 unsigned long TaskList::getSpeed( void )
 { //Defining a function to get the refreshing speed of the library in Hertz. (Executions per second)
-  return (unsigned long)round( ( 1000000 / (double)(_threadListEndTime - _lastThreadListStartTime ) ) ); //Calculating the speed
-  // 1 Second = 1000000 Micro Seconds
+  unsigned long timeDifference = ( _currentExecutionTime - _lastExecutionTime );
+  if( timeDifference == 0 ) { //Avoiding the divide by zero error
+    return 0; //0 Means infinite speed :)
+  }
+  else {
+    return (unsigned long)round( ( 1000000 / (double)timeDifference ) ); //Calculating the speed, 1 Second = 1000000 Micro Seconds
+  }
 }
 
 void TaskList::stopTasks( void )

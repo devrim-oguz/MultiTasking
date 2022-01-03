@@ -8,8 +8,9 @@ void setup() { //Setup Function
   Serial.begin(9600); //Starting serial in 9600 bauds.
   pinMode( LED, OUTPUT ); //Setting LED pin as OUTPUT.
   superTask.setTimer( count, 1000, 10 ); //Adding a timer to call the function "count" every 1000 milisecond for 10 times.
-  superTask.setTimer( newTasks, 15000, 1 ); //Adding a timer to call the function "newTasks" just for 1 time.
-                                          //Timer will start after 15000 miliseconds.( 15 second )
+  superTask.setTimer( newTasks, 15000, 1 ); //Adding a timer to call the function "newTasks" just for 1 time. Timer will start after 15000 miliseconds.( 15 second )
+  superTask.setTimer( printTaskSpeed, 2000, 0 );
+                                           
   superTask.startTasks(); //Starting tasks.
   //No code will work underneath here until you stop MultiTasking.
   //Don't use any delay function or endless loop, because it will stop the other tasks.
@@ -21,6 +22,12 @@ void loop() { //Loop function still works as a Thread. You can use it like a Thr
 
 void count() { //Declaring a function to print seconds until reset or start.
   Serial.println(millis()/1000); //Printing seconds.
+}
+
+void printTaskSpeed() {
+  Serial.print("Task Speed: ");
+  Serial.print(superTask.getSpeed()); //Print the library task speed
+  Serial.println(" Hz"); //The value is in Hertz ( Times per second )
 }
 
 void newTasks() { //Declaring a function named newTasks which will add new tasks to the TaskList.
