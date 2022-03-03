@@ -83,6 +83,10 @@ class TaskList //Class definition for a ThreadList ( A list that holds all threa
 
 extern TaskList superTask;
 
+#define MACRO_PROTECT( __MT_PROTECT ) do { __MT_PROTECT } while(false)
+#define setTimeout( __MT_CODE, __MT_DELAY ) MACRO_PROTECT( superTask.setTimer( []() __MT_CODE, __MT_DELAY, 1); )
+#define setInterval( __MT_CODE, __MT_INTERVAL ) MACRO_PROTECT( superTask.setTimer( []() __MT_CODE, __MT_INTERVAL, 0); )
+
 #endif //Ending include protection.
 
 //!!!Thank You For Using The Library!!! <3 <3 <3
